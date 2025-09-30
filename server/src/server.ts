@@ -23,7 +23,7 @@ const fastify = Fastify({
 fastify.register(cors, {
   origin: "http://localhost:5173", // Allow all origins for simplicity; adjust as needed for production
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type", "[Authorization, application/json]"],
 });
 
 // Register routes

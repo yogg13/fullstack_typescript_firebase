@@ -1,72 +1,15 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { ProductService } from "../services/productService";
 import { CreateProductInput, UpdateProductInput } from "../types/product";
-
-const productService = new ProductService();
-
-// Schema untuk validasi input
-const createProductSchema = {
-  body: {
-    type: "object",
-    required: ["name", "price", "stock"],
-    properties: {
-      name: {
-        type: "string",
-        minLength: 1,
-        maxLength: 255,
-      },
-      price: {
-        type: "number",
-        minimum: 0,
-      },
-      stock: {
-        type: "integer",
-        minimum: 0,
-      },
-    },
-  },
-};
-
-const updateProductSchema = {
-  params: {
-    type: "object",
-    required: ["id"],
-    properties: {
-      id: { type: "integer", minimum: 1 },
-    },
-  },
-  body: {
-    type: "object",
-    properties: {
-      name: {
-        type: "string",
-        minLength: 1,
-        maxLength: 255,
-      },
-      price: {
-        type: "number",
-        minimum: 0,
-      },
-      stock: {
-        type: "integer",
-        minimum: 0,
-      },
-    },
-    minProperties: 1, // Minimal satu property harus ada
-  },
-};
-
-const getProductSchema = {
-  params: {
-    type: "object",
-    required: ["id"],
-    properties: {
-      id: { type: "integer", minimum: 1 },
-    },
-  },
-};
+import {
+  createProductSchema,
+  updateProductSchema,
+  getProductSchema,
+} from "../schemas/product";
 
 export default async function productRoutes(fastify: FastifyInstance) {
+  const productService = new ProductService();
+
   // POST /products - Membuat produk baru
   fastify.post<{ Body: CreateProductInput }>("/products", {
     schema: createProductSchema,
