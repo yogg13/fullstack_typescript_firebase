@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "product_logs": {
+      ".indexOn": ["timestamp"],
+      ".read": "now < 1761670800000",
+      ".write": "now < 1761670800000"
+    }
+  }
+}
