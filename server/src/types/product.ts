@@ -27,5 +27,6 @@ export interface ProductLog {
   productId: number;
   productName?: string;
   timestamp: string;
-  userId?: string; // Opsional untuk future development
+  userId?: string;
+  userEmail?: string;
 }

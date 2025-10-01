@@ -6,6 +6,7 @@ import {
   updateProductSchema,
   getProductSchema,
 } from "../schemas/product";
+import { authenticate } from "../middleware/authMiddleware";
 
 export default async function productRoutes(fastify: FastifyInstance) {
   const productService = new ProductService();
@@ -13,6 +14,7 @@ export default async function productRoutes(fastify: FastifyInstance) {
   // POST /products - Membuat produk baru
   fastify.post<{ Body: CreateProductInput }>("/products", {
     schema: createProductSchema,
+    preHandler: authenticate,
     handler: async (
       request: FastifyRequest<{ Body: CreateProductInput }>,
       reply: FastifyReply
@@ -38,7 +40,7 @@ export default async function productRoutes(fastify: FastifyInstance) {
     },
   });
 
-  // GET /products - Mendapatkan semua produk
+  // GET /products - Mendapatkan semua produk (no need authentication)
   fastify.get("/products", {
     handler: async (request: FastifyRequest, reply: FastifyReply) => {
       try {
@@ -66,6 +68,7 @@ export default async function productRoutes(fastify: FastifyInstance) {
   // GET /products/:id - Mendapatkan produk berdasarkan ID
   fastify.get<{ Params: { id: number } }>("/products/:id", {
     schema: getProductSchema,
+    preHandler: authenticate,
     handler: async (
       request: FastifyRequest<{ Params: { id: number } }>,
       reply: FastifyReply
@@ -103,6 +106,7 @@ export default async function productRoutes(fastify: FastifyInstance) {
     "/products/:id",
     {
       schema: updateProductSchema,
+      preHandler: authenticate,
       handler: async (
         request: FastifyRequest<{
           Params: { id: number };
@@ -145,6 +149,7 @@ export default async function productRoutes(fastify: FastifyInstance) {
   // DELETE /products/:id - Menghapus produk
   fastify.delete<{ Params: { id: number } }>("/products/:id", {
     schema: getProductSchema,
+    preHandler: authenticate,
     handler: async (
       request: FastifyRequest<{ Params: { id: number } }>,
       reply: FastifyReply

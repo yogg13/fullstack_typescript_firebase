@@ -2,7 +2,10 @@ import Fastify from "fastify";
 import dotenv from "dotenv";
 import { testDatabaseConnection } from "./config/database";
 import { testFirebaseConnection } from "./config/firebase";
+
 import productRoutes from "./routes/productRoutes";
+import authRoutes from "./routes/authRoutes"; // Add this import
+
 import { createSimpleLogger } from "./utils/logger";
 import cors from "@fastify/cors";
 
@@ -28,6 +31,8 @@ fastify.register(cors, {
 
 // Register routes
 fastify.register(productRoutes, { prefix: "/api" });
+fastify.register(authRoutes, { prefix: "/api/auth" }); // Add this line
+
 
 // Error handler
 fastify.setErrorHandler((error, request, reply) => {
